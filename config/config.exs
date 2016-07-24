@@ -9,6 +9,8 @@ use Mix.Config
 config :flour,
   ecto_repos: [Flour.Repo]
 
+config :flour, Flour.Gettext, default_locale: "zh"
+  
 # Configures the endpoint
 config :flour, Flour.Endpoint,
   url: [host: "localhost"],
