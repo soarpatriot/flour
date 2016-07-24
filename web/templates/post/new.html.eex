@@ -1,0 +1,6 @@
+<h2>我</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: post_path(@conn, :create) %>
+
+<%= link "返回", to: post_path(@conn, :index) %>

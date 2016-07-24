@@ -1,0 +1,13 @@
+<h2>Show photo</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <img src="<%= Flour.Photo.url({@photo.name, @photo}) %>"/>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: photo_path(@conn, :edit, @photo) %>
+<%= link "Back", to: photo_path(@conn, :index) %>

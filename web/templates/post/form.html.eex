@@ -1,0 +1,37 @@
+<div class="row">
+<%= form_for @changeset, @action,[multipart: true], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <div class="file-field input-field">
+    <div class="btn">
+      <span>选择文件</span>
+      <input type="file">
+    </div>
+    <div class="file-path-wrapper">
+      <input class="file-path validate" type="text">
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+    <%= text_input f, :title, placeholder: "说", class: "validate" %>
+    <%= label f, :title, "data-error": "wrong", "data-success": "right" %>
+    <%= error_tag f, :title %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+    <%= text_input f, :content, placeholder: "爱，就要大声说出来！", class: "validate" %>
+    <%= error_tag f, :content %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12">
+      <%= submit "发布", class: "btn waves-effect waves-light red" %>
+    </div>
+  </div>
+<% end %>
+</div>

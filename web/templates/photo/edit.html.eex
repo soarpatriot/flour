@@ -1,0 +1,6 @@
+<h2>Edit photo</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: photo_path(@conn, :update, @photo) %>
+
+<%= link "Back", to: photo_path(@conn, :index) %>

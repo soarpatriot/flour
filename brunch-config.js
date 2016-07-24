@@ -54,12 +54,20 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
+    },
+    sass: {
+      includePaths: ["node_modules/materialize-css/sass"],
+      precision: 8
+    },
+    copycat: {
+      "fonts": ["node_modules/materialize-css/fonts/"] // copy node_modules/bootstrap-sass/assets/fonts/bootstrap/* to priv/static/fonts/
     }
   },
 
   modules: {
     autoRequire: {
-      "js/app.js": ["web/static/js/app"]
+      "js/app.js": [
+        "web/static/js/app"]
     }
   },
 

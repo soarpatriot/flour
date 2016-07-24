@@ -1,0 +1,29 @@
+<h2>Listing photos</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for photo <- @photos do %>
+    <tr>
+      <td>
+
+         <img src="<%= Flour.Picture.custom_url(photo.name) %>"/>
+      </td>
+
+      <td class="text-right">
+        <%= link "Show", to: photo_path(@conn, :show, photo), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: photo_path(@conn, :edit, photo), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: photo_path(@conn, :delete, photo), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New photo", to: photo_path(@conn, :new) %>
