@@ -1,23 +1,24 @@
-
-<form>
-  <div class="file-field input-field">
-    <div class="btn">
-      <span>选择文件</span>
-      <input id="fileupload" type="file" name="photo[name]" multiple/>
+<div class="row">
+    <div class="input-field col s12">
+      <div class="file-field input-field">
+        <div class="btn">
+          <span>选择文件</span>
+          <input id="fileupload" type="file" name="photo[name]" multiple/>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+      </div>
     </div>
-    <div class="file-path-wrapper">
-      <input class="file-path validate" type="text">
-    </div>
-  </div>
-</form> 
+</div>
   <!-- The global progress bar -->
   <div id="progress" class="progress">
+      <div class="determinate" style="width: 0%"></div>
       <div class="progress-bar progress-bar-success"></div>
   </div>
   <!-- The container for the uploaded files -->
   <div id="files" class="files"></div>
   <br>
-<div class="row">
 <%= form_for @changeset, @action,[multipart: true], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
@@ -44,4 +45,3 @@
     </div>
   </div>
 <% end %>
-</div>

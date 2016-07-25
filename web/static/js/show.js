@@ -16,12 +16,12 @@ if(jQuery){
   //materialbox = jQuery.materialbox;
 }
 $(function(){
-  console.log("aa");
+  //console.log("aa");
   $("body").delegate(".delete-photo","click",function(e){
     e.preventDefault();
-    console.log($(this))
+    //console.log($(this))
     var id = $(this).attr("data-id");
-    console.log("bbbccc"+ id);
+    //console.log("bbbccc"+ id);
     $.ajax({
       url: "/photos/"+id,
       method: "DELETE",
