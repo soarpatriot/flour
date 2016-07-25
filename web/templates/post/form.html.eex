@@ -10,6 +10,13 @@
     </div>
   </div>
 </form> 
+  <!-- The global progress bar -->
+  <div id="progress" class="progress">
+      <div class="progress-bar progress-bar-success"></div>
+  </div>
+  <!-- The container for the uploaded files -->
+  <div id="files" class="files"></div>
+  <br>
 <div class="row">
 <%= form_for @changeset, @action,[multipart: true], fn f -> %>
   <%= if @changeset.action do %>

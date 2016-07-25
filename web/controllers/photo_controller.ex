@@ -21,11 +21,19 @@ defmodule Flour.PhotoController do
 
     case Repo.insert(changeset) do
       {:ok, _photo} ->
-        conn
-        |> put_flash(:info, "Photo created successfully.")
-        |> redirect(to: photo_path(conn, :index))
+        IO.inspect _photo
+        json conn,
+          %{files: [ %{id: _photo.id, 
+                 filename: _photo.name[:file_name],
+                 url: Flour.Picture.custom_url(_photo.name)}
+              ]
+           }
+          
+        # |> put_flash(:info, "Photo created successfully.")
+        # |> redirect(to: photo_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        json conn, changeset
+        # render(conn, "new.html", changeset: changeset)
     end
   end
 
@@ -61,8 +69,9 @@ defmodule Flour.PhotoController do
     # it to always work (and if it does not, it will raise).
     Repo.delete!(photo)
 
-    conn
-    |> put_flash(:info, "Photo deleted successfully.")
-    |> redirect(to: photo_path(conn, :index))
+    json conn, %{code: :ok, message: "delete success"}
+    # conn
+    # |> put_flash(:info, "Photo deleted successfully.")
+    # |> redirect(to: photo_path(conn, :index))
   end
 end

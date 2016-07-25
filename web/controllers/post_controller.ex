@@ -19,9 +19,10 @@ defmodule Flour.PostController do
     case Repo.insert(changeset) do
       {:ok, _post} ->
         conn
-        |> put_flash(:info, "Post created successfully.")
-        |> redirect(to: post_path(conn, :index))
+         |> put_flash(:info, "Post created successfully.")
+         |> redirect(to: post_path(conn, :index))
       {:error, changeset} ->
+        # json conn, changeset
         render(conn, "new.html", changeset: changeset)
     end
   end
