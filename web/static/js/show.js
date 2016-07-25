@@ -16,6 +16,14 @@ if(jQuery){
   //materialbox = jQuery.materialbox;
 }
 $(function(){
+  $('#post-form').submit(function() {
+        // DO STUFF
+    var ids = $(".delete-photo").map(function(){
+      return $(this).attr("data-id");
+    }).get().join(",");
+    $("#photo-ids").val(ids); 
+    return true; // return false to cancel form action
+  });
   //console.log("aa");
   $("body").delegate(".delete-photo","click",function(e){
     e.preventDefault();

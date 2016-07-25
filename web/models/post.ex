@@ -4,7 +4,8 @@ defmodule Flour.Post do
   schema "posts" do
     field :title, :string
     field :content, :string
-
+    
+    has_many :photos, Flour.Photo
     timestamps()
   end
 

@@ -1,7 +1,9 @@
 defmodule Flour.PostController do
   use Flour.Web, :controller
+  require IEx
   plug :put_layout, "post.html"
   alias Flour.Post
+  alias Flour.Photo
 
   def index(conn, _params) do
     posts = Repo.all(Post)
@@ -13,11 +15,16 @@ defmodule Flour.PostController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"post" => post_params}) do
+  def create(conn, %{"post" => post_params, "photos" => photo_ids}) do
     changeset = Post.changeset(%Post{}, post_params)
-
+    ps = String.split(photo_ids, ",")
+      |> Enum.map( &(String.to_integer(&1)) )
+    # query = from p in Photo, where: p.id in ^ps
+    # photos = Repo.all(query)
     case Repo.insert(changeset) do
       {:ok, _post} ->
+        from( p in Photo, where: p.id in ^ps)
+         |> Repo.update_all(set: [post_id: _post.id])
         conn
          |> put_flash(:info, "Post created successfully.")
          |> redirect(to: post_path(conn, :index))
