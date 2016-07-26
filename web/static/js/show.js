@@ -127,6 +127,7 @@ $(function(){
         );
     }).on('fileuploaddone', function (e, data) {
         $.each(data.result.files, function (index, file) {
+            console.log(file);
             if (file.url) {
                 var link = $('<a>')
                     .attr('target', '_blank')
