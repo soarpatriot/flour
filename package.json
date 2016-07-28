@@ -8,6 +8,7 @@
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.3.0",
     "blueimp-file-upload": "^9.12.5",
+    "blueimp-gallery": "^2.21.3",
     "blueimp-load-image": "^2.6.1",
     "jquery": "^3.1.0",
     "materialize-css": "^0.97.6",

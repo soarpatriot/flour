@@ -1,18 +1,18 @@
 
 <div class="row">
   <%= for photo <- @post.photos do %>
-    <img src="<%= Flour.Picture.thumb_url({photo.name, photo}) %>"/>
+    <a class="carousel-item" href="<%= Flour.Photo.url(photo,:original)%>" data-gallery>
+      <img class="responsive-img" src="<%= Flour.Photo.url(photo, :thumb) %>"/>
+    </a>
   <% end %>
 </div>
 <ul>
 
   <li>
-    <strong>Title:</strong>
     <%= @post.title %>
   </li>
 
   <li>
-    <strong>Content:</strong>
     <%= @post.content %>
   </li>
 

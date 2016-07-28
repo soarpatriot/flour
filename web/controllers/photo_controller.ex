@@ -26,8 +26,8 @@ defmodule Flour.PhotoController do
         json conn,
           %{files: [ %{id: _photo.id, 
                  filename: _photo.name,
-                 url: Flour.Photo.url(_photo, :original)
-                 # thumb_url: Flour.custom_url(_photo,:thumb)
+                 url: Flour.Photo.url(_photo, :original),
+                 thumb_url: Flour.Photo.url(_photo,:thumb)
                  }
               ]
            }

@@ -15,6 +15,7 @@ import "phoenix_html"
 import "jquery"
 import "materialize-css/dist/js/materialize.js"
 import "./show.js"
+import "./photo.js"
 // Import local files
 //
 // Local files can be imported directly using relative
