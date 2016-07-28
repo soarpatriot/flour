@@ -1,19 +1,26 @@
 defmodule Flour.Picture do
   use Arc.Definition
   use Arc.Ecto.Definition
+
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
 
   @versions [:original, :thumb]
   def __storage, do: Arc.Storage.Local
-  def storage_dir(_, {file, user}) do
-    "priv/static/uploads"
+  def storage_dir(_, {file, scope}) do
+    "priv/static/uploads/#{scope.id}"
   end 
-
-  def custom_url(file) do
-    original_file = filename(:original, {file, :original}) 
-    "#{Application.get_env(:arc, :asset_host)}/uploads/#{original_file}#{Path.extname(file.file_name)}" 
+   
+  def custom_url(id, name,  version) do 
+    "#{Application.get_env(:arc, :asset_host)}/uploads/#{id}/#{version}-#{name}" 
   end
+  # def url(id, version) do 
+    # IO.puts "scope  sdf:  #{scope.id}"
+    #  "#{Application.get_env(:arc, :asset_host)}/uploads/#{id}/#{version}.jpg" 
+  # end
+  # def custom_url(scope, name) do
+    # "#{Application.get_env(:arc, :asset_host)}/uploads/#{scope.id}#{Path.extname(file.filename)}" 
+  # end
   def thumb_url(file) do 
     thumb_file = filename(:thumb, {file, :thumb}) 
     "#{Application.get_env(:arc, :asset_host)}/uploads/#{thumb_file}.png" 
@@ -34,8 +41,11 @@ defmodule Flour.Picture do
 
   # Override the persisted filenames:
   def filename(version, {file,scope} ) do
-    timestamp = DateTime.utc_now() |> DateTime.to_unix()
-    "#{version}-#{timestamp}"
+    "#{version}-#{Path.rootname(file.file_name)}"
+
+    #"#{version}-#{file.file_name}"
+    #timestamp = DateTime.utc_now() |> DateTime.to_unix()
+    # "#{version}-#{timestamp}"
   end
 
   # Override the storage directory:

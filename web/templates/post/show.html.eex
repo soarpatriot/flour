@@ -1,5 +1,9 @@
-<h2>Show post</h2>
 
+<div class="row">
+  <%= for photo <- @post.photos do %>
+    <img src="<%= Flour.Picture.thumb_url({photo.name, photo}) %>"/>
+  <% end %>
+</div>
 <ul>
 
   <li>

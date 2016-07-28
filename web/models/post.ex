@@ -19,4 +19,5 @@ defmodule Flour.Post do
     |> validate_length(:title,max: 140)
     |> validate_length(:content,max: 140)
   end
+
 end

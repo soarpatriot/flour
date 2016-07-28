@@ -1,6 +1,5 @@
 defmodule Flour.PhotoController do
   use Flour.Web, :controller
-
   alias Flour.Photo
 
   def index(conn, _params) do
@@ -14,19 +13,21 @@ defmodule Flour.PhotoController do
   end
 
   def create(conn, %{"photo" => photo_params}) do
-    # IO.inspect photo_params
-    # IO.inspect photo_params["name"]["filename"]
+    IO.inspect photo_params
+    filename = photo_params["upload"].filename
     # %Plug.Upload{content_type: "image/jpg", filename: photo_params["name"], path: "/Users/liuhaibao/test"}
-    changeset = Photo.changeset(%Photo{}, photo_params)
-
+    changeset = Photo.changeset(%Photo{}, photo_params) |> Photo.change_name(filename)
     case Repo.insert(changeset) do
       {:ok, _photo} ->
+        IO.puts "sdfad:"
+        IO.inspect _photo.id
         IO.inspect _photo
+        Photo.store(photo_params["upload"],_photo)
         json conn,
           %{files: [ %{id: _photo.id, 
-                 filename: _photo.name[:file_name],
-                 url: Flour.Picture.custom_url(_photo.name),
-                 thumb_url: Flour.Picture.thumb_url(_photo.name)
+                 filename: _photo.name,
+                 url: Flour.Photo.url(_photo, :original)
+                 # thumb_url: Flour.custom_url(_photo,:thumb)
                  }
               ]
            }
