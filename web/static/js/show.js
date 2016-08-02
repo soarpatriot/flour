@@ -89,10 +89,10 @@ $(function(){
         previewCrop: true
     }).on('fileuploadadd', function (e, data) {
         $("#progress").removeClass("hide")
-        data.context = $('<div/>').appendTo('#files');
+        data.context = $('<div class="col s3 center"/>').appendTo('#files');
         $.each(data.files, function (index, file) {
-            var node = $('<p/>')
-                    .append($('<span/>').text(file.name));
+            var node = $('<div/>');
+                   // .append($('<span/>').text(file.name));
             /**
             if (!index) {
                 node
@@ -133,16 +133,15 @@ $(function(){
         $.each(data.result.files, function (index, file) {
             console.log(file);
             if (file.url) {
-                var link = $('<a>')
-                    .attr('target', '_blank')
+                var link = $('<a class="phot-item" data-gallery>')
                     .prop('href', file.url);
                 $(data.context.children()[index])
                     .wrap(link);
-                var delLink = $('<a>').attr('class','delete-photo btn-flat')
+                var delLink = $('<a><i class="small material-icons">delete</i></a>').attr('class','delete-photo waves-effect waves-light btn red')
                    .attr('data-url',file.url)
                    .attr('data-id', file.id)
-                   .prop('href', file.url)
-                   .text('删除');
+                   .prop('href', file.url);
+                   //.text('删除');
                 delLink.appendTo(data.context)
             } else if (file.error) {
                 var error = $('<span class="text-danger"/>').text(file.error);
