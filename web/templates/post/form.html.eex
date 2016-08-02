@@ -12,7 +12,7 @@
     </div>
 </div>
   <!-- The global progress bar -->
-  <div id="progress" class="progress">
+  <div id="progress" class="progress hide">
       <div class="determinate" style="width: 0%"></div>
       <div class="progress-bar progress-bar-success"></div>
   </div>

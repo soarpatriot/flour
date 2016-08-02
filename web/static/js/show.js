@@ -88,6 +88,7 @@ $(function(){
         previewMaxHeight: 100,
         previewCrop: true
     }).on('fileuploadadd', function (e, data) {
+        $("#progress").removeClass("hide")
         data.context = $('<div/>').appendTo('#files');
         $.each(data.files, function (index, file) {
             var node = $('<p/>')
@@ -125,6 +126,9 @@ $(function(){
             'width',
             progress + '%'
         );
+        if(progress >= 100){
+          $("#progress").addClass("hide")
+        }
     }).on('fileuploaddone', function (e, data) {
         $.each(data.result.files, function (index, file) {
             console.log(file);
@@ -149,7 +153,7 @@ $(function(){
         });
     }).on('fileuploadfail', function (e, data) {
         $.each(data.files, function (index) {
-            var error = $('<span class="text-danger"/>').text('File upload failed.');
+            var error = $('<span class="text-danger"/>').text('文件上传失败！');
             $(data.context.children()[index])
                 .append('<br>')
                 .append(error);

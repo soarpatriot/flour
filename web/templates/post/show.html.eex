@@ -1,22 +1,35 @@
 
 <div class="row">
-  <%= for photo <- @post.photos do %>
-    <a class="carousel-item" href="<%= Flour.Photo.url(photo,:original)%>" data-gallery>
-      <img class="responsive-img" src="<%= Flour.Photo.url(photo, :thumb) %>"/>
-    </a>
-  <% end %>
+  <div class="col s2">
+    <img class="responsive-img circle red" src="/images/flower.ico"/>
+  </div>
+  <div class="col s10">
+    <div class="row">
+      <%= for photo <- @post.photos do %>
+        <div class="col s3 col ph"> 
+        <a class="carousel-item" href="<%= Flour.Photo.url(photo,:original)%>" data-gallery>
+          <img class="responsive-img" src="<%= Flour.Photo.url(photo, :thumb) %>"/>
+        </a>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
-<ul>
-
-  <li>
+<div>
+  <div class="right">
+    <a class="btn-floating btn-large waves-effect waves-light red  lighten-4">
+      <img class="responsive-img circle" src="/images/flower.ico"/>
+    </a>
+    <span>4</span>
+  </div>
+</div>
+<div class="chip">
     <%= @post.title %>
-  </li>
-
-  <li>
     <%= @post.content %>
-  </li>
+</div>
 
-</ul>
 
+<!-- 
 <%= link "Edit", to: post_path(@conn, :edit, @post) %>
 <%= link "Back", to: post_path(@conn, :index) %>
+-->

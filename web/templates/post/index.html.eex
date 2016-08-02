@@ -1,10 +1,9 @@
-<h2>Listing posts</h2>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Content</th>
+      <th>标题</th>
+      <th>内容</th>
 
       <th></th>
     </tr>
@@ -14,7 +13,6 @@
     <tr>
       <td><%= post.title %></td>
       <td><%= post.content %></td>
-
       <td class="text-right">
         <%= link "Show", to: post_path(@conn, :show, post), class: "btn btn-default btn-xs" %>
         <%= link "Edit", to: post_path(@conn, :edit, post), class: "btn btn-default btn-xs" %>
