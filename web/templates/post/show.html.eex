@@ -11,6 +11,15 @@
 			</div>
       <div class="card-content">
         <div class="row">
+         <div class="col  offset-s8 s4">
+					<a class="btn-floating btn-small waves-effect waves-light red  lighten-4">
+						<img class="responsive-img circle" src="/images/flower.ico"/>
+					</a>
+					<span class=" flower-count">4</span>
+          </div>
+        </div>
+ 
+        <div class="row">
           <div class="col s3">
             <img class="responsive-img circle red" src="/images/flower.ico"/>
           </div>
@@ -21,15 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="card-action">
-        <div class="row">
-         <div class="col  offset-s9 s3">
-					<a class="btn-floating btn-small waves-effect waves-light red  lighten-4">
-						<img class="responsive-img circle" src="/images/flower.ico"/>
-					</a>
-					<span class="">4</span>
-          </div>
-        </div>
+    </div>
     <div class="row">
       <%= for photo <- @post.photos do %>
         <div class="col s3 col ph"> 
