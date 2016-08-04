@@ -36,7 +36,7 @@ defmodule Flour.PostController do
 
   def show(conn, %{"id" => id}) do
     post = Repo.get!(Post, id) |> Repo.preload(:photos)
-    render(conn, "show.html", post: post)
+    render(conn, "show.html", post: post, layout: {Flour.LayoutView, "app.html"})
   end
 
   def edit(conn, %{"id" => id}) do
