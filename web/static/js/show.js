@@ -84,8 +84,10 @@ $(function(){
         // send Blob objects via XHR requests:
         disableImageResize: /Android(?!.*Chrome)|Opera/
             .test(window.navigator.userAgent),
-        previewMaxWidth: 100,
-        previewMaxHeight: 100,
+        //imageMaxWidth: 84,
+        //imageMaxHeight: 84,
+        previewMaxWidth: 80,
+        previewMaxHeight: 80,
         previewCrop: true
     }).on('fileuploadadd', function (e, data) {
         $("#progress").removeClass("hide")

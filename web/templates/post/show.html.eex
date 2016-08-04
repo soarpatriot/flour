@@ -15,12 +15,12 @@
     </div>
   </div>
 </div>
-<div>
-  <div class="right">
-    <a class="btn-floating btn-large waves-effect waves-light red  lighten-4">
-      <img class="responsive-img circle" src="/images/flower.ico"/>
-    </a>
-    <span>4</span>
+<div class="row">
+  <div class="col  offset-s9 s3">
+        <a class="btn-floating btn-small waves-effect waves-light red  lighten-4">
+          <img class="responsive-img circle" src="/images/flower.ico"/>
+        </a>
+        <span class="">4</span>
   </div>
 </div>
 <div class="chip">
