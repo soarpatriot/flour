@@ -1,15 +1,23 @@
 
-    <div class="card">
+    <div class="card honey-card">
 		  <div class="card-image">
-				<%= for photo <- @post.photos do %>
+				<a class="carousel-item" href="<%= Flour.Photo.url(hd(@post.photos),:original)%>" data-gallery>
+				  <img class="responsive-img" src="<%= Flour.Photo.url(hd(@post.photos), :thumb) %>"/>
+				</a>
+	
+			  <span class="card-title">吾❤️久久</span>
+			</div>
+      <div class="card-content">
+        <div class="row">
+				 <%= for photo <- tl(@post.photos) do %>
+         <div class="col s3 ph">
 					<a class="carousel-item" href="<%= Flour.Photo.url(photo,:original)%>" data-gallery>
 						<img class="responsive-img" src="<%= Flour.Photo.url(photo, :thumb) %>"/>
 					</a>
-				<% end %>
- 
-				<span class="card-title">吾❤️久久</span>
-			</div>
-      <div class="card-content">
+			  </div>
+				 <% end %>
+			  </div>
+	
         <div class="row">
          <div class="col  offset-s8 s4">
 					<a class="btn-floating btn-small waves-effect waves-light red  lighten-4">
@@ -25,34 +33,16 @@
           </div>
  
           <div class="col s9">
-           I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+            <%= @post.title %>
+            <p>
+              对（他／她）说：
+              <%= @post.content %>
+            </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <%= for photo <- @post.photos do %>
-        <div class="col s3 col ph"> 
-        <a class="carousel-item" href="<%= Flour.Photo.url(photo,:original)%>" data-gallery>
-          <img class="responsive-img" src="<%= Flour.Photo.url(photo, :thumb) %>"/>
-        </a>
-        </div>
-      <% end %>
-    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col  offset-s9 s3">
-        <a class="btn-floating btn-small waves-effect waves-light red  lighten-4">
-          <img class="responsive-img circle" src="/images/flower.ico"/>
-        </a>
-        <span class="">4</span>
-  </div>
-</div>
-<div class="chip">
-    <%= @post.title %>
-    <%= @post.content %>
 </div>
 
 
