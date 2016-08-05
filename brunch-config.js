@@ -56,6 +56,7 @@ exports.config = {
       ignore: [/web\/static\/vendor/]
     },
     sass: {
+      mode: 'native',
       includePaths: ["node_modules/materialize-css/sass"],
       precision: 8
     },
