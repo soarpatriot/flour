@@ -41,3 +41,6 @@ config :flour, Flour.Repo,
   database: "flour_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :arc,
+  asset_host: "http://localhost:4000"
