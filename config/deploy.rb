@@ -51,7 +51,7 @@ namespace :deploy do
   task :build do
     on roles :app do
       within current_path do
-        execute "cd #{current_path} MIX_ENV=#{fetch(:mix_env)}  mix deps.get && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate && MIX_ENV=#{fetch(:mix_env)} mix release"
+        execute "cd #{current_path} && mix deps.get && MIX_ENV=#{fetch(:mix_env)} mix compile && brunch build --production && MIX_ENV=#{fetch(:mix_env)} mix phoenix.digest && MIX_ENV=#{fetch(:mix_env)} mix ecto.migrate"
       end
     end
   end

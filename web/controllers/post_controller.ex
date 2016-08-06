@@ -34,7 +34,20 @@ defmodule Flour.PostController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id, "code"=> code, "state"=> state}) do
+    appid = "#{Application.get_env(:flour, :wechat_appid)}"
+    secret = "#{Application.get_env(:flour, :wechat_secret)}"
+    access_url = "#{Application.get_env(:flour, :wechat_access_token_url)}?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
+    IO.puts access_url
+
+		case HTTPoison.get(access_url) do
+			{:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+				IO.puts body
+			{:ok, %HTTPoison.Response{status_code: 404}} ->
+				IO.puts "Not found :("
+			{:error, %HTTPoison.Error{reason: reason}} ->
+				IO.inspect reason
+		end    
     post = Repo.get!(Post, id) |> Repo.preload(:photos)
     render(conn, "show.html", post: post, layout: {Flour.LayoutView, "app.html"})
   end

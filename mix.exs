@@ -18,7 +18,7 @@ defmodule Flour.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Flour, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :httpoison,
                     :phoenix_ecto, :postgrex]]
   end
 
@@ -40,6 +40,7 @@ defmodule Flour.Mixfile do
      {:cowboy, "~> 1.0"},
      {:exrm, "~> 1.0"},
      {:arc, "~> 0.5.2"},
+     {:httpoison, "~> 0.9.0"},
      {:arc_ecto, "~> 0.4.2"},
      {:exredis, ">= 0.2.4"}
     ]

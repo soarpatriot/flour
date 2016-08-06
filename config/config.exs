@@ -28,4 +28,7 @@ config :logger, :console,
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
 
-
+config :flour,
+  wechat_code_url: "https://open.weixin.qq.com/connect/oauth2/authorize",
+  wechat_access_token_url: "https://api.weixin.qq.com/sns/oauth2/access_token",
+  wechat_userinfo_url: "https://api.weixin.qq.com/sns/userinfo"
