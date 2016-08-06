@@ -61,7 +61,7 @@ exports.config = {
       precision: 8
     },
     copycat: {
-      "fonts": ["node_modules/materialize-css/fonts/"] // copy node_modules/bootstrap-sass/assets/fonts/bootstrap/* to priv/static/fonts/
+      "fonts": ["node_modules/materialize-css/fonts/", "node_modules/material-design-icons/iconfont/"] // copy node_modules/bootstrap-sass/assets/fonts/bootstrap/* to priv/static/fonts/
     }
   },
 
