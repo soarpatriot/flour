@@ -19,7 +19,8 @@ defmodule Flour.PostController do
 
   def create(conn, %{"post" => post_params, "photos" => photo_ids}) do
     openid = get_session(conn, :openid) 
-    changeset = Post.changeset(%Post{openid: openid}, post_params)
+    users =  Repo.get_by(User, openid: openid) 
+    changeset = Post.changeset(%Post{openid: openid, user_id: hd(users)[:id]}, post_params)
     #changeset = Post.changeset(%Post{}, post_params)
     ps = String.split(photo_ids, ",")
       |> Enum.map( &(String.to_integer(&1)) )
@@ -80,7 +81,7 @@ defmodule Flour.PostController do
     userinfo_url = "#{userinfo_base}?openid=#{openid}&access_token=#{access_token}"
     IO.puts "access_token: #{access_token}"
     IO.puts "openid: #{openid}"
-    users =  Repo.get_by(User, openid: "3434") 
+    users =  Repo.get_by(User, openid: openid) 
       
     # IO.puts "user: #{Length(user)}"
     case HTTPoison.get(userinfo_url) do
