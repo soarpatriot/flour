@@ -88,14 +88,16 @@ defmodule Flour.PostController do
         result = Poison.Parser.parse!(body)
         IO.inspect result
         changeset = User.changeset(%User{}, %{"openid"=> result["openid"], "nickname"=> result["nickname"], 
-            "sex"=> result["sex"], 
             "province"=> result["province"],
              "country"=> result["country"],
              "headimgurl"=> result["headimgurl"]})
       
         if !users do 
+          
+          IO.puts "save"
           Repo.insert(changeset)
         else 
+          IO.puts "update"
           Repo.update(hd(users),changeset) 
         end
       {:ok, %HTTPoison.Response{status_code: 404}} ->
