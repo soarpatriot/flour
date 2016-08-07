@@ -45,6 +45,11 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="col s12">
+    <%= link "发布我的", to: post_path(@conn, :new) %>
+  </div> 
+</div>
 
 <!-- 
 <%= link "Edit", to: post_path(@conn, :edit, @post) %>
