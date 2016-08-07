@@ -156,8 +156,9 @@ defmodule Flour.PostController do
               IO.inspect reason
         end    
 
-
+      
       end            
     end 
+    conn 
   end
 end
