@@ -50,6 +50,9 @@ defmodule Flour.PostController do
     #client |> Exredis.stop
      
      
+    conn = put_session(conn, :message, "oksdfad")
+    message = get_session(conn, :message) 
+    IO.puts "message: #{message}"
     access_token = get_session(conn, :access_token) 
     IO.puts "access_token"
     if !access_token do 
@@ -58,8 +61,8 @@ defmodule Flour.PostController do
 				{:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
           result = Poison.Parser.parse!(body)
           IO.inspect result
-          put_session(conn, :access_token, result["access_token"])
-          put_session(conn, :openid, result["openid"])
+          conn = put_session(conn, :access_token, result["access_token"])
+          conn = put_session(conn, :openid, result["openid"])
 				{:ok, %HTTPoison.Response{status_code: 404}} ->
 					IO.puts "Not found :("
 				{:error, %HTTPoison.Error{reason: reason}} ->
