@@ -57,6 +57,7 @@ defmodule Flour.PostController do
 			case HTTPoison.get(access_url) do
 				{:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
           result = Poison.Parser.parse!(body)
+          IO.inspect result
           put_session(conn, :access_token, result["access_token"])
           put_session(conn, :openid, result["openid"])
 				{:ok, %HTTPoison.Response{status_code: 404}} ->
