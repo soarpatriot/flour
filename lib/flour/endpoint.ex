@@ -33,10 +33,17 @@ defmodule Flour.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
+ # plug Plug.Session,
+  #  store: :cookie,
+  #  key: "_flour_key",
+  #  signing_salt: "3usE37lQ"
+
   plug Plug.Session,
-    store: :cookie,
-    key: "_flour_key",
-    signing_salt: "3usE37lQ"
+    store: :redis,                           # Plug.Session.REDIS module
+    key: "_flour_key",                       # Cookie name
+    table: :redis_sessions,                  # Pool name
+    ttl:     1 * 60 * 60,                    # Redis expiration
+    max_age: 1 * 60 * 60                     # Cookie expiration
 
   plug Flour.Router
 	# plug Plug.Parsers, parsers: [:urlencoded, :multipart]

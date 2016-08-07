@@ -48,3 +48,24 @@ config :flour,
  
 config :arc,
   asset_host: "http://localhost:4000"
+
+config :exredis,
+  host: "127.0.0.1",
+  port: 6379,
+  password: "",
+  db: 0,
+  reconnect: :no_reconnect,
+  max_queue: :infinity
+
+config :phoenix_session_redis, :config,
+  name: :redis_sessions,            # Pool name
+  pool: [
+    size: 2,                        # Number of worker
+    max_overflow: 5,                # Max Additional worker
+    name: {:local, :redis_sessions} # First is determination where the pool is run
+                                    # Second is unique pool name
+  ],
+  redis: [                          # Worker arguments
+    host: '127.0.0.1',              # Redis host(it is char list !)
+    port: 6379,                     # Redis port
+  ]

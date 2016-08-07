@@ -1,6 +1,7 @@
 defmodule Flour.PostController do
   use Flour.Web, :controller
   require IEx
+  require Exredis
   plug :put_layout, "post.html"
   alias Flour.Post
   alias Flour.Photo
@@ -39,15 +40,37 @@ defmodule Flour.PostController do
     secret = "#{Application.get_env(:flour, :wechat_secret)}"
     access_url = "#{Application.get_env(:flour, :wechat_access_token_url)}?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
     IO.puts access_url
-
-		case HTTPoison.get(access_url) do
-			{:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-				IO.puts body
-			{:ok, %HTTPoison.Response{status_code: 404}} ->
-				IO.puts "Not found :("
-			{:error, %HTTPoison.Error{reason: reason}} ->
-				IO.inspect reason
-		end    
+    
+    #{:ok,client} = Exredis.start_link
+    #foo = (client |> Exredis.query ["GET","FOO"] )
+    #IO.puts foo
+    #if foo == :undefined do 
+    #  IO.puts foo
+    #end
+    #client |> Exredis.stop
+     
+     
+    access_token = get_session(conn, :access_token) 
+    IO.puts "access_token"
+    if !access_token do 
+      IO.puts "access_token is empty"
+			case HTTPoison.get(access_url) do
+				{:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+          result = Poison.Parser.parse!(body)
+          put_session(conn, :access_token, result["access_token"])
+          put_session(conn, :openid, result["openid"])
+				{:ok, %HTTPoison.Response{status_code: 404}} ->
+					IO.puts "Not found :("
+				{:error, %HTTPoison.Error{reason: reason}} ->
+					IO.inspect reason
+			end    
+       
+    end 
+    access_token = get_session(conn, :access_token) 
+    openid = get_session(conn, :openid) 
+    IO.puts "access_token: #{access_token}"
+    IO.puts "openid: #{openid}"
+ 
     post = Repo.get!(Post, id) |> Repo.preload(:photos)
     render(conn, "show.html", post: post, layout: {Flour.LayoutView, "app.html"})
   end
