@@ -93,8 +93,7 @@ defmodule Flour.PostController do
              "country"=> result["country"],
              "headimgurl"=> result["headimgurl"]})
       
-        if !users do 
-          
+        if !user do 
           IO.puts "save"
           Repo.insert(changeset)
         else 
