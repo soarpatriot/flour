@@ -98,7 +98,7 @@ defmodule Flour.PostController do
           Repo.insert(changeset)
         else 
           IO.puts "update"
-          Repo.update(user,changeset) 
+          # Repo.update(user,changeset) 
         end
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
