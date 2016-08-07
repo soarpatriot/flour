@@ -81,7 +81,7 @@ defmodule Flour.PostController do
     userinfo_url = "#{userinfo_base}?openid=#{openid}&access_token=#{access_token}"
     IO.puts "access_token: #{access_token}"
     IO.puts "openid: #{openid}"
-    users =  Repo.get_by(User, openid: openid) 
+    user =  Repo.get_by(User, openid: openid) 
       
     # IO.puts "user: #{Length(user)}"
     case HTTPoison.get(userinfo_url) do
@@ -99,7 +99,7 @@ defmodule Flour.PostController do
           Repo.insert(changeset)
         else 
           IO.puts "update"
-          Repo.update(hd(users),changeset) 
+          Repo.update(user,changeset) 
         end
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
