@@ -19,8 +19,8 @@ defmodule Flour.PostController do
 
   def create(conn, %{"post" => post_params, "photos" => photo_ids}) do
     openid = get_session(conn, :openid) 
-    users =  Repo.get_by(User, openid: openid) 
-    changeset = Post.changeset(%Post{openid: openid, user_id: hd(users)[:id]}, post_params)
+    user =  Repo.get_by(User, openid: openid) 
+    changeset = Post.changeset(%Post{openid: openid, user_id: user.id}, post_params)
     #changeset = Post.changeset(%Post{}, post_params)
     ps = String.split(photo_ids, ",")
       |> Enum.map( &(String.to_integer(&1)) )
