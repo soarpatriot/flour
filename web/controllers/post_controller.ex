@@ -2,6 +2,7 @@ defmodule Flour.PostController do
   use Flour.Web, :controller
   require IEx
   require Exredis
+  plug :auth
   plug :put_layout, "post.html"
   alias Flour.Post
   alias Flour.Photo
@@ -41,14 +42,6 @@ defmodule Flour.PostController do
   end
 
   def show(conn, %{"id" => id} = params ) do
-    appid = "#{Application.get_env(:flour, :wechat_appid)}"
-    secret = "#{Application.get_env(:flour, :wechat_secret)}"
-    userinfo_base = "#{Application.get_env(:flour, :wechat_userinfo_url)}"
-    
-    if !!params["code"] and !!params["state"] do 
-      access_url = "#{Application.get_env(:flour, :wechat_access_token_url)}?appid=#{appid}&secret=#{secret}&code=#{params[:code]}&grant_type=authorization_code"
-    end
-    IO.puts access_url
     
     #{:ok,client} = Exredis.start_link
     #foo = (client |> Exredis.query ["GET","FOO"] )
@@ -59,58 +52,6 @@ defmodule Flour.PostController do
     #client |> Exredis.stop
      
      
-    access_token = get_session(conn, :access_token) 
-    IO.puts "access_token"
-    if !access_token and !!access_url do 
-      IO.puts "access_token is empty"
-			case HTTPoison.get(access_url) do
-				{:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-          result = Poison.Parser.parse!(body)
-          IO.inspect result
-          conn = put_session(conn, :access_token, result["access_token"])
-          conn = put_session(conn, :openid, result["openid"])
-				{:ok, %HTTPoison.Response{status_code: 404}} ->
-					IO.puts "Not found :("
-				{:error, %HTTPoison.Error{reason: reason}} ->
-					IO.inspect reason
-			end    
-       
-    end 
-    access_token = get_session(conn, :access_token) 
-    openid = get_session(conn, :openid)
-    userinfo_url = "#{userinfo_base}?openid=#{openid}&access_token=#{access_token}"
-    IO.puts "access_token: #{access_token}"
-    IO.puts "openid: #{openid}"
-    if !is_nil(openid) do 
-      user =  Repo.get_by(User, openid: openid)
-    end
-      
-    # IO.puts "user: #{Length(user)}"
-    if !is_nil(openid) and !is_nil(access_token) do 
-    case HTTPoison.get(userinfo_url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        result = Poison.Parser.parse!(body)
-        IO.inspect result
-        changeset = User.changeset(%User{}, %{"openid"=> result["openid"], "nickname"=> result["nickname"], 
-            "province"=> result["province"],
-             "country"=> result["country"],
-             "headimgurl"=> result["headimgurl"]})
-      
-        if !user do 
-          IO.puts "save"
-          Repo.insert(changeset)
-        else 
-          IO.puts "update"
-          # Repo.update(user,changeset) 
-        end
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
-    end    
-
-    end
- 
     post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload :user
     render(conn, "show.html", post: post, layout: {Flour.LayoutView, "app.html"})
   end
@@ -146,5 +87,77 @@ defmodule Flour.PostController do
     conn
     |> put_flash(:info, "Post deleted successfully.")
     |> redirect(to: post_path(conn, :index))
+  end
+  
+  def auth(conn, _params) do 
+    access_token = get_session(conn, :access_token) 
+    openid = get_session(conn, :openid)
+    code_url = "#{Application.get_env(:flour, :wechat_code_url)}"
+    appid = "#{Application.get_env(:flour, :wechat_appid)}"
+    secret = "#{Application.get_env(:flour, :wechat_secret)}"
+    userinfo_base = "#{Application.get_env(:flour, :wechat_userinfo_url)}"
+    current_url = Flour.Router.Helpers.url(conn) <> conn.request_path
+
+    IO.puts "access_token: #{access_token}"
+    IO.puts "openid: #{openid}"
+    code = conn.params["code"]    
+
+    if is_nil(access_token) or is_nil(openid) do 
+      
+      IO.puts "access_token or openid is empty"
+      if is_nil(code) do 
+        code_url = "#{code_url}?appid=#{appid}&redirect_uri=#{current_url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect" 
+        redirect conn |> halt, external: code_url
+        
+      else 
+        IO.puts "code=#{code}"
+        access_url = "#{Application.get_env(:flour, :wechat_access_token_url)}?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
+        IO.puts access_url
+        IO.puts "access_token is empty"
+        case HTTPoison.get(access_url) do
+          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+            result = Poison.Parser.parse!(body)
+            IO.inspect result
+            conn = put_session(conn, :access_token, result["access_token"])
+            conn = put_session(conn, :openid, result["openid"])
+          {:ok, %HTTPoison.Response{status_code: 404}} ->
+            IO.puts "Not found :("
+          {:error, %HTTPoison.Error{reason: reason}} ->
+            IO.inspect reason
+        end    
+
+        access_token = get_session(conn, :access_token) 
+        openid = get_session(conn, :openid)
+        userinfo_url = "#{userinfo_base}?openid=#{openid}&access_token=#{access_token}"
+        IO.puts "access_token: #{access_token}"
+        IO.puts "openid: #{openid}"
+
+        user =  Repo.get_by(User, openid: openid)
+            
+        case HTTPoison.get(userinfo_url) do
+            {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+              result = Poison.Parser.parse!(body)
+              IO.inspect result
+              changeset = User.changeset(%User{}, %{"openid"=> result["openid"], "nickname"=> result["nickname"], 
+                  "province"=> result["province"],
+                   "country"=> result["country"],
+                   "headimgurl"=> result["headimgurl"]})
+            
+              if !user do 
+                IO.puts "save"
+                Repo.insert(changeset)
+              else 
+                IO.puts "update"
+                # Repo.update(user,changeset) 
+              end
+            {:ok, %HTTPoison.Response{status_code: 404}} ->
+              IO.puts "Not found :("
+            {:error, %HTTPoison.Error{reason: reason}} ->
+              IO.inspect reason
+        end    
+
+
+      end            
+    end 
   end
 end
