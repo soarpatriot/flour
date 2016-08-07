@@ -40,11 +40,14 @@ defmodule Flour.PostController do
     end
   end
 
-  def show(conn, %{"id" => id, "code"=> code, "state"=> state}) do
+  def show(conn, %{"id" => id} = params ) do
     appid = "#{Application.get_env(:flour, :wechat_appid)}"
     secret = "#{Application.get_env(:flour, :wechat_secret)}"
     userinfo_base = "#{Application.get_env(:flour, :wechat_userinfo_url)}"
-    access_url = "#{Application.get_env(:flour, :wechat_access_token_url)}?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
+    
+    if !!params["code"] and !!params["state"] do 
+      access_url = "#{Application.get_env(:flour, :wechat_access_token_url)}?appid=#{appid}&secret=#{secret}&code=#{params[:code]}&grant_type=authorization_code"
+    end
     IO.puts access_url
     
     #{:ok,client} = Exredis.start_link
@@ -56,12 +59,9 @@ defmodule Flour.PostController do
     #client |> Exredis.stop
      
      
-    conn = put_session(conn, :message, "oksdfad")
-    message = get_session(conn, :message) 
-    IO.puts "message: #{message}"
     access_token = get_session(conn, :access_token) 
     IO.puts "access_token"
-    if !access_token do 
+    if !access_token and !!access_url do 
       IO.puts "access_token is empty"
 			case HTTPoison.get(access_url) do
 				{:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -77,13 +77,16 @@ defmodule Flour.PostController do
        
     end 
     access_token = get_session(conn, :access_token) 
-    openid = get_session(conn, :openid) 
+    openid = get_session(conn, :openid)
     userinfo_url = "#{userinfo_base}?openid=#{openid}&access_token=#{access_token}"
     IO.puts "access_token: #{access_token}"
     IO.puts "openid: #{openid}"
-    user =  Repo.get_by(User, openid: openid) 
+    if !is_nil(openid) do 
+      user =  Repo.get_by(User, openid: openid)
+    end
       
     # IO.puts "user: #{Length(user)}"
+    if !is_nil(openid) and !is_nil(access_token) do 
     case HTTPoison.get(userinfo_url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         result = Poison.Parser.parse!(body)
@@ -105,8 +108,10 @@ defmodule Flour.PostController do
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end    
+
+    end
  
-    post = Repo.get!(Post, id) |> Repo.preload(:photos)
+    post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload :user
     render(conn, "show.html", post: post, layout: {Flour.LayoutView, "app.html"})
   end
 
