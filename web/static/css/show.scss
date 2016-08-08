@@ -58,3 +58,25 @@
 .top-flower{
   width: 54px;
 }
+
+nav{
+ .brand-logo{
+    .logo-text{
+			height: 54px;
+			line-height: 54px;
+      font-size: 24px;
+    }
+ }
+ .nav-wrapper{
+		.flower-top-icon{
+			height: 54px;
+			line-height: 54px;
+			display: inline-block;
+      font-size: 24px;
+		}
+  }
+}
+
+.top-h3-text{
+  color: #ff5252;
+}
