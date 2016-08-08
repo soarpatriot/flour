@@ -16,6 +16,7 @@ defmodule Flour.Router do
   scope "/", Flour do
     pipe_through :browser # Use the default browser stack
     resources "/posts", PostController 
+    get "/posts/:id/flower",  PostController, :flower
     resources "/photos", PhotoController 
     get "/", PageController, :index
   end

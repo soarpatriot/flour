@@ -7,7 +7,46 @@ defmodule Flour.PostController do
   alias Flour.Post
   alias Flour.Photo
   alias Flour.User
+  
+  def flower(conn, _params) do
+    code = 1
+    # user_id = get_session(conn, :user_id) 
+    user_id = 12
+    {:ok,client} = Exredis.start_link
+    id = _params["id"]
+    count_key = "POST_#{id}_COUNT"
+    list_key = "POST_#{id}_LIST"
 
+    flowered = client |> Exredis.Api.sismember(list_key, user_id)
+    IO.inspect flowered
+    if flowered == "0" do 
+      IO.puts "add"
+      code = 0
+      client |> Exredis.Api.incr count_key 
+    end
+    client |> Exredis.Api.sadd(list_key, user_id)
+    if !is_nil(user_id) do 
+       my_list_key = "MY_#{user_id}_LIST"
+      client |> Exredis.Api.sadd(my_list_key, id)
+    end
+    
+    flower_count = client |> Exredis.Api.get(count_key)
+    IO.puts "conunt: #{flower_count}"
+    client |> Exredis.stop
+    #if foo == :undefined do 
+    #  IO.puts foo
+    #end
+    
+
+    json conn,
+          %{ code: code,  
+             count: flower_count 
+           }
+ 
+    #post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload :user
+    #render(conn, "show.html", post: post, flower_count: flower_count, layout: {Flour.LayoutView, "app.html"})
+    
+  end
   def index(conn, _params) do
     user_id = get_session(conn, :user_id) 
     # posts = Repo.all(from p in Post, where: p.user_id == ^user_id )
@@ -55,17 +94,15 @@ defmodule Flour.PostController do
 
   def show(conn, %{"id" => id} = params ) do
     
-    #{:ok,client} = Exredis.start_link
-    #foo = (client |> Exredis.query ["GET","FOO"] )
-    #IO.puts foo
-    #if foo == :undefined do 
-    #  IO.puts foo
-    #end
-    #client |> Exredis.stop
-     
+    {:ok,client} = Exredis.start_link
+    count_key = "POST_#{id}_COUNT"
+    flower_count = client |> Exredis.Api.get(count_key)
+    IO.puts "conunt: #{flower_count}"
+    client |> Exredis.stop
+
      
     post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload :user
-    render(conn, "show.html", post: post, layout: {Flour.LayoutView, "app.html"})
+    render(conn, "show.html", post: post, flower_count: flower_count, layout: {Flour.LayoutView, "app.html"})
   end
 
   def edit(conn, %{"id" => id}) do
