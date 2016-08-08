@@ -33,7 +33,6 @@
           </div>
  
           <div class="col s9">
-            <%= @post.title %>
             <p>
               对（他／她）说：
               <%= @post.content %>
@@ -65,7 +64,7 @@
       <div class="collapsible-header"><i class="material-icons">place</i>行动派</div>
       <div class="collapsible-body"><p>
         立即下单
-        <a href="http://detail.koudaitong.com/show/goods?alias=3nu55ioc87cre&reft=1470637817486_1470637838380&amp;spm=fake16852042_fake16852042" class="waves-effect waves-light btn-large amber darken-3">
+        <a href="https://wap.koudaitong.com/v2/showcase/goods?alias=3nu55ioc87cre&sf=wx_menu" class="waves-effect waves-light btn-large amber darken-3">
           给她送上鲜花
         </a>
         

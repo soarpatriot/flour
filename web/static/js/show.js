@@ -18,10 +18,21 @@ if(jQuery){
 $(function(){
   $('#post-form').submit(function() {
         // DO STUFF
+    var content = $.trim($("#post_content").val());
+    var pTip = "请上传图片！";
+    var pContent = "请填写文字！";
     var ids = $(".delete-photo").map(function(){
       return $(this).attr("data-id");
     }).get().join(",");
     $("#photo-ids").val(ids); 
+    if(ids == '') {
+      $("#tips").text(pTip);
+      return false; 
+    }
+    if(content == '') {
+      $("#tips").text(pContent);
+      return false; 
+    }
     return true; // return false to cancel form action
   });
   //console.log("aa");

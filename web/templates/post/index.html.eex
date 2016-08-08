@@ -2,7 +2,6 @@
 <table class="">
   <thead>
     <tr>
-      <th>标题</th>
       <th>内容</th>
 
       <th></th>
@@ -11,7 +10,6 @@
   <tbody>
 <%= for post <- @posts do %>
     <tr>
-      <td><%= post.title %></td>
       <td><%= post.content %></td>
       <td>
         <%= link "查看", to: post_path(@conn, :show, post), class: "btn waves-effect waves-teal btn-flat red lighten-5" %>
