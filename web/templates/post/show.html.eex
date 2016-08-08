@@ -2,7 +2,7 @@
     <div class="card honey-card">
 		  <div class="card-image">
 				<a class="carousel-item" href="<%= Flour.Photo.url(hd(@post.photos),:original)%>" data-gallery>
-				  <img class="responsive-img" src="<%= Flour.Photo.url(hd(@post.photos), :thumb) %>"/>
+				  <img class="responsive-img" src="<%= Flour.Photo.url(hd(@post.photos), :original) %>"/>
 				</a>
 	
 			  <span class="card-title">我❤️久久</span>
