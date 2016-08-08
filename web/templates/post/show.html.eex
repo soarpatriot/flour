@@ -79,7 +79,23 @@
       </div>
     </li>
 </ul>
+
+<%= form_for @changeset, post_path(@conn, :comment, @post.id), [multipart: true, id: "comments-form"],  fn f -> %>
+  <div class="row">
+    <div class="input-field col s12">
+    <%= textarea f, :content, placeholder: "对他说：", class: "materialize-textarea validate" %>
+    <%= error_tag f, :content %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <%= submit "发布", class: "btn waves-light pink" %>
+    </div>
+  </div>
+
+<% end %>
 <div class="holder-div"></div>
+
 <!-- 
 <%= link "Edit", to: post_path(@conn, :edit, @post) %>
 <%= link "Back", to: post_path(@conn, :index) %>

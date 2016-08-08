@@ -2,12 +2,30 @@ defmodule Flour.PostController do
   use Flour.Web, :controller
   require IEx
   require Exredis
-  plug :auth
+  # plug :auth
   plug :put_layout, "post.html"
   alias Flour.Post
   alias Flour.Photo
   alias Flour.User
+  alias Flour.Comment
   
+  def comment(conn,  %{"id" => id, "comment" => comment_params}) do 
+    user_id = 121
+     
+    IO.puts "comment"
+    IO.puts "id: #{id}"
+    # IO.inspect _params
+    changeset = Comment.changeset(%Comment{post_id: String.to_integer(id),user_id: user_id}, comment_params)
+    case Repo.insert(changeset) do 
+      {:ok, _comment} -> 
+       
+        IO.puts "success"
+      {:error, changeset} ->
+        IO.puts "error"
+    end
+    redirect(conn, to: post_path(conn, :show, id))
+
+  end
   def flower(conn, _params) do
     code = 1
     user_id = get_session(conn, :user_id) 
@@ -94,6 +112,8 @@ defmodule Flour.PostController do
 
   def show(conn, %{"id" => id} = params ) do
     
+    changeset = Comment.changeset(%Comment{})
+
     {:ok,client} = Exredis.start_link
     count_key = "POST_#{id}_COUNT"
     flower_count = client |> Exredis.Api.get(count_key)
@@ -104,7 +124,7 @@ defmodule Flour.PostController do
     client |> Exredis.stop
      
     post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload :user
-    render(conn, "show.html", post: post, flower_count: flower_count, layout: {Flour.LayoutView, "app.html"})
+    render(conn, "show.html", post: post, flower_count: flower_count, changeset: changeset, layout: {Flour.LayoutView, "app.html"})
   end
 
   def edit(conn, %{"id" => id}) do
