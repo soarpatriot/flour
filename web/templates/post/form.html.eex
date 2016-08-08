@@ -39,7 +39,7 @@
    -->
  <div class="row">
     <div class="input-field col s12">
-    <%= text_input f, :content, placeholder: "爱，就要大声说出来！", class: "validate" %>
+    <%= textarea f, :content, placeholder: "爱，就要大声说出来！", class: "materialize-textarea validate" %>
     <%= error_tag f, :content %>
     </div>
   </div>
