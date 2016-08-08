@@ -1,9 +1,11 @@
 
-<table class="">
+<table class="bordered">
   <thead>
     <tr>
-      <th>内容</th>
-      <th>图片</th>
+      <th>久久</th>
+      <th>图</th>
+      <th>花</th>
+      <th>数</th>
 
       <th></th>
     </tr>
@@ -11,20 +13,27 @@
   <tbody>
 <%= for post <- @posts do %>
     <tr>
-      <td><%= post.content %></td>
+      <td>
+        <img class="circle" src="<%= post.user.headimgurl %>"/>
+      </td>
       <td>
         <%= link to: post_path(@conn, :show, post)  do %>
           <img class="responsive-img top-thumb" src="<%= Flour.Photo.url(hd(post.photos), :thumb) %>"/>
         <% end %>
       </td>
       <td>
-        <%= link "查看", to: post_path(@conn, :show, post), class: "btn waves-effect waves-teal btn-flat red lighten-5" %>
-        <p></p>
-        <%= link "删除", to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "确定删除吗？"], class: "btn red" %>
+          <img class="circle top-flower" src="/images/flower.ico"/>
       </td>
+      <td>
+          <span id="flower-count" class="flower-count"><%= post.flower %></span>
+      </td>
+      <!-- 
+      <td>
+        <%= link "查看", to: post_path(@conn, :show, post), class: "btn waves-effect waves-teal btn-flat red lighten-5" %>
+      </td>
+      -->
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "发布新的", to: post_path(@conn, :new), class: "btn waves-effect waves-light red lighten-3" %>

@@ -28,6 +28,28 @@
         <a class="play-pause"></a>
         <ol class="indicator"></ol>
     </div>
+
+    <div class="holder-div"></div>
+     <div class="navbar-fixed-new">
+      <nav>
+    
+        <div class="nav-wrapper">
+          <!--
+          <a href="#!" class="brand-logo">Logo</a>
+          -->
+          <a href="/posts/top" class="brand-logo center"><i class="material-icons">local_florist</i>
+          </a>
+          <ul class="right">
+            <li>
+               <%= link "我的", to: post_path(@conn, :index) %>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+     </div>
+
+
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

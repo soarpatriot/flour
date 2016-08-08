@@ -9,6 +9,13 @@ defmodule Flour.PostController do
   alias Flour.User
   alias Flour.Comment
   
+  def top(conn, _params) do 
+    query = from p in Post,
+      order_by: [desc: :flower],
+      limit: 100    
+    posts = Repo.all(query) |> Repo.preload(:photos) |> Repo.preload(:user)
+    render(conn, "top.html", posts: posts)
+  end  
   def comment(conn,  %{"id" => id, "comment" => comment_params}) do 
     user_id = get_session(conn, :user_id) 
     IO.puts "comment"
@@ -40,6 +47,8 @@ defmodule Flour.PostController do
       IO.puts "add"
       code = 0
       client |> Exredis.Api.incr count_key 
+      # flower_get_count = client |> Exredis.Api.get(count_key)
+
     end
     client |> Exredis.Api.sadd(list_key, user_id)
     if !is_nil(user_id) do 
@@ -48,11 +57,20 @@ defmodule Flour.PostController do
     end
     
     flower_count = client |> Exredis.Api.get(count_key)
+
     IO.puts "conunt: #{flower_count}"
     client |> Exredis.stop
-    #if foo == :undefined do 
-    #  IO.puts foo
-    #end
+    
+    post = Repo.get!(Post,id) 
+    IO.inspect post
+    changeset = Post.changeset(post, %{flower: flower_count})
+    case Repo.update(changeset) do 
+      {:ok, _post} -> 
+      
+         IO.puts "success"
+      {:error, changeset} ->
+         IO.puts "error"
+    end
     
 
     json conn,

@@ -15,6 +15,7 @@ defmodule Flour.Router do
 
   scope "/", Flour do
     pipe_through :browser # Use the default browser stack
+    get "/posts/top",  PostController, :top
     resources "/posts", PostController 
     get "/posts/:id/flower",  PostController, :flower
     post "/posts/:id/comment",  PostController, :comment

@@ -5,6 +5,7 @@ defmodule Flour.Post do
     field :title, :string
     field :content, :string
     field :openid, :string
+    field :flower, :integer
     
     belongs_to :user, Flour.User
     has_many :photos, Flour.Photo
@@ -20,7 +21,7 @@ defmodule Flour.Post do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :content, :user_id])
+    |> cast(params, [:title, :content, :user_id, :flower])
     # |> validate_required([:title, :content])
     # |> validate_length(:title,max: 140)
     # |> validate_length(:content,max: 140)
