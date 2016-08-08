@@ -14,7 +14,7 @@
 <%= for post <- @posts do %>
     <tr>
       <td>
-        <img class="circle" src="<%= post.user.headimgurl %>"/>
+        <img class="circle top-head" src="<%= post.user.headimgurl %>"/>
       </td>
       <td>
         <%= link to: post_path(@conn, :show, post)  do %>

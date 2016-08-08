@@ -110,7 +110,7 @@
       <img class="circle" src="<%= comment.user.headimgurl %>"/>
       <p><%= comment.content %>
       </p>
-      <p>
+      <p class="comment-name">
         <%= comment.user.nickname %>
       </p>
       <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
