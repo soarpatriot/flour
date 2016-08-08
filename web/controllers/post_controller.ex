@@ -2,7 +2,7 @@ defmodule Flour.PostController do
   use Flour.Web, :controller
   require IEx
   require Exredis
-  # plug :auth
+  plug :auth
   plug :put_layout, "post.html"
   alias Flour.Post
   alias Flour.Photo
@@ -123,7 +123,7 @@ defmodule Flour.PostController do
     IO.puts "count: #{flower_count}"
     client |> Exredis.stop
      
-    post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload :user
+    post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload(:user) |> Repo.preload(:comments)
     render(conn, "show.html", post: post, flower_count: flower_count, changeset: changeset, layout: {Flour.LayoutView, "app.html"})
   end
 

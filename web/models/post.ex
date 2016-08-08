@@ -8,6 +8,8 @@ defmodule Flour.Post do
     
     belongs_to :user, Flour.User
     has_many :photos, Flour.Photo
+    has_many :comments, Flour.Comment
+
     timestamps()
   end
 
