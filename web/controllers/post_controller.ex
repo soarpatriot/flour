@@ -2,7 +2,7 @@ defmodule Flour.PostController do
   use Flour.Web, :controller
   require IEx
   require Exredis
-  # plug :auth
+  plug :auth
   plug :put_layout, "post.html"
   alias Flour.Post
   alias Flour.Photo
@@ -10,8 +10,8 @@ defmodule Flour.PostController do
   
   def flower(conn, _params) do
     code = 1
-    # user_id = get_session(conn, :user_id) 
-    user_id = 12
+    user_id = get_session(conn, :user_id) 
+    # user_id = 12
     {:ok,client} = Exredis.start_link
     id = _params["id"]
     count_key = "POST_#{id}_COUNT"
@@ -49,8 +49,8 @@ defmodule Flour.PostController do
   end
   def index(conn, _params) do
     user_id = get_session(conn, :user_id) 
-    # posts = Repo.all(from p in Post, where: p.user_id == ^user_id )
-    posts = Repo.all(Post)
+    posts = Repo.all(from p in Post, where: p.user_id == ^user_id )
+    #  posts = Repo.all(Post)
     render(conn, "index.html", posts: posts)
   end
 
