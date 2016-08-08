@@ -97,9 +97,11 @@ defmodule Flour.PostController do
     {:ok,client} = Exredis.start_link
     count_key = "POST_#{id}_COUNT"
     flower_count = client |> Exredis.Api.get(count_key)
-    IO.puts "conunt: #{flower_count}"
+    if flower_count == :undefined do 
+      flower_count = 0
+    end
+    IO.puts "count: #{flower_count}"
     client |> Exredis.stop
-
      
     post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload :user
     render(conn, "show.html", post: post, flower_count: flower_count, layout: {Flour.LayoutView, "app.html"})
