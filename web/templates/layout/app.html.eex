@@ -16,16 +16,32 @@
     <main role="main">
       <%= render @view_module, @view_template, assigns %>
     </main>
-<div id="blueimp-gallery" class="blueimp-gallery">
-    <div class="slides"></div>
-    <h3 class="title"></h3>
-    <a class="prev">‹</a>
-    <a class="next">›</a>
-    <a class="close">×</a>
-    <a class="play-pause"></a>
-    <ol class="indicator"></ol>
-</div>
- 
+    <div id="blueimp-gallery" class="blueimp-gallery">
+      <div class="slides"></div>
+      <h3 class="title"></h3>
+      <a class="prev">‹</a>
+      <a class="next">›</a>
+      <a class="close">×</a>
+      <a class="play-pause"></a>
+      <ol class="indicator"></ol>
+     </div>
+     <div class="navbar-fixed-new">
+      <nav>
+    
+        <div class="nav-wrapper">
+          <!--
+          <a href="#!" class="brand-logo">Logo</a>
+          -->
+          <ul class="right">
+            <li>
+               <%= link "我的", to: post_path(@conn, :index) %>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+     </div>
+
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

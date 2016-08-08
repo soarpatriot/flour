@@ -24,4 +24,20 @@
 .wo-ai-code{
   width: 100px;
 }
-
+.navbar-fixed-new{
+  width: 100%;
+  position: fixed;
+  height: 54px;
+  bottom: 0;
+  line-height: 54px;
+  nav{
+    background-color: #f06292;
+    height: 54px;
+    line-height: 54px;
+  }
+  .nav-wrapper{
+  }
+}
+.holder-div{
+  height: 100px;
+}

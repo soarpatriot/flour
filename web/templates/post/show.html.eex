@@ -44,13 +44,19 @@
     </div>
   </div>
 </div>
-
+<div class="row">
+ <div class="col s12">
+<p>
+天上鹊桥，人间七巧，今宵月圆花好，有情人欢喜相邀。黄昏后，柳梢头，窃窃私语，幸福成双，不似牛郎织女，赛过神仙眷属！
+</p>
+</div>
+</div>
 <ul class="collapsible" data-collapsible="accordion">
     <li>
       <div class="collapsible-header"><i class="material-icons">filter_drama</i>甜美派</div>
       <div class="collapsible-body">
         <p>
-						  <%= link "发布我的", to: post_path(@conn, :new), class: "waves-effect waves-light btn-large red" %>
+						  <%= link "发布我的", to: post_path(@conn, :new), class: "waves-effect waves-light btn-large pink lighten-2" %>
         </p>
 
       </div>
@@ -59,7 +65,7 @@
       <div class="collapsible-header"><i class="material-icons">place</i>行动派</div>
       <div class="collapsible-body"><p>
         立即下单
-        <a href="http://detail.koudaitong.com/show/goods?alias=3nu55ioc87cre&reft=1470637817486_1470637838380&amp;spm=fake16852042_fake16852042" class="waves-effect waves-light btn-large red">
+        <a href="http://detail.koudaitong.com/show/goods?alias=3nu55ioc87cre&reft=1470637817486_1470637838380&amp;spm=fake16852042_fake16852042" class="waves-effect waves-light btn-large amber darken-3">
           给她送上鲜花
         </a>
         
@@ -73,11 +79,8 @@
       </p>
       </div>
     </li>
-    <li>
-      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-    </li>
 </ul>
+<div class="holder-div"></div>
 <!-- 
 <%= link "Edit", to: post_path(@conn, :edit, @post) %>
 <%= link "Back", to: post_path(@conn, :index) %>
