@@ -19,9 +19,9 @@ defmodule Flour.Post do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:title, :content, :user_id])
-    |> validate_required([:title, :content])
-    |> validate_length(:title,max: 140)
-    |> validate_length(:content,max: 140)
+    # |> validate_required([:title, :content])
+    # |> validate_length(:title,max: 140)
+    # |> validate_length(:content,max: 140)
   end
 
 end

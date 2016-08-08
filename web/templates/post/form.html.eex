@@ -2,7 +2,7 @@
     <div class="input-field col s12">
       <div class="file-field input-field">
         <div class="btn">
-          <span>选择文件</span>
+          <span>选择照片</span>
           <input id="fileupload" type="file" name="photo[upload]" multiple/>
         </div>
         <div class="file-path-wrapper">

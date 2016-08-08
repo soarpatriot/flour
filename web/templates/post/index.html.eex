@@ -1,5 +1,5 @@
 
-<table class="table">
+<table class="">
   <thead>
     <tr>
       <th>标题</th>
@@ -13,13 +13,14 @@
     <tr>
       <td><%= post.title %></td>
       <td><%= post.content %></td>
-      <td class="text-right">
-        <%= link "查看", to: post_path(@conn, :show, post), class: "btn btn-default btn-xs" %>
-        <%= link "删除", to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "确定删除吗？"], class: "btn btn-danger btn-xs" %>
+      <td>
+        <%= link "查看", to: post_path(@conn, :show, post), class: "btn waves-effect waves-teal btn-flat red lighten-5" %>
+        <p></p>
+        <%= link "删除", to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "确定删除吗？"], class: "btn red" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "发布新的", to: post_path(@conn, :new) %>
+<%= link "发布新的", to: post_path(@conn, :new), class: "btn waves-effect waves-light red lighten-3" %>

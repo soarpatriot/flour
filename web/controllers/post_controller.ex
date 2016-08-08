@@ -2,7 +2,7 @@ defmodule Flour.PostController do
   use Flour.Web, :controller
   require IEx
   require Exredis
-  plug :auth
+  # plug :auth
   plug :put_layout, "post.html"
   alias Flour.Post
   alias Flour.Photo
@@ -10,7 +10,8 @@ defmodule Flour.PostController do
 
   def index(conn, _params) do
     user_id = get_session(conn, :user_id) 
-    posts = Repo.all(from p in Post, where: p.user_id == ^user_id )
+    # posts = Repo.all(from p in Post, where: p.user_id == ^user_id )
+    posts = Repo.all(Post)
     render(conn, "index.html", posts: posts)
   end
 
@@ -22,8 +23,17 @@ defmodule Flour.PostController do
   def create(conn, %{"post" => post_params, "photos" => photo_ids}) do
     openid = get_session(conn, :openid) 
     user =  Repo.get_by(User, openid: openid) 
-    changeset = Post.changeset(%Post{openid: openid, user_id: user.id}, post_params)
-    #changeset = Post.changeset(%Post{}, post_params)
+    title = "我爱久久"
+    content = "我爱你！"
+
+    changeset = Post.changeset(%Post{openid: openid,user_id: user.id}, post_params)
+    if post_params["title"] do 
+      changeset = Ecto.Changeset.put_change(changeset, :title, title)
+    end 
+    if post_params["content"] do 
+      changeset = Ecto.Changeset.put_change(changeset, :content, content)
+    end 
+ 
     ps = String.split(photo_ids, ",")
       |> Enum.map( &(String.to_integer(&1)) )
     # query = from p in Photo, where: p.id in ^ps
@@ -33,6 +43,7 @@ defmodule Flour.PostController do
       {:ok, _post} ->
         from( p in Photo, where: p.id in ^ps)
          |> Repo.update_all(set: [post_id: _post.id])
+
         conn
          |> put_flash(:info, "Post created successfully.")
          |> redirect(to: post_path(conn, :index))

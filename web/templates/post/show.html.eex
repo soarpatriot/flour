@@ -5,7 +5,7 @@
 				  <img class="responsive-img" src="<%= Flour.Photo.url(hd(@post.photos), :thumb) %>"/>
 				</a>
 	
-			  <span class="card-title">吾❤️久久</span>
+			  <span class="card-title">我❤️久久</span>
 			</div>
       <div class="card-content">
         <div class="row">
