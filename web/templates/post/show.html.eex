@@ -52,10 +52,10 @@
 </div>
 <ul class="collapsible" data-collapsible="accordion">
     <li>
-      <div class="collapsible-header"><i class="material-icons">filter_drama</i>甜美派</div>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>甜蜜派</div>
       <div class="collapsible-body">
         <p>
-						  <%= link "发布我的", to: post_path(@conn, :new), class: "waves-effect waves-light btn-large pink lighten-2" %>
+						  <%= link "发布我的幸福", to: post_path(@conn, :new), class: "waves-effect waves-light btn-large pink lighten-2" %>
         </p>
 
       </div>
@@ -83,17 +83,40 @@
 <%= form_for @changeset, post_path(@conn, :comment, @post.id), [multipart: true, id: "comments-form"],  fn f -> %>
   <div class="row">
     <div class="input-field col s12">
-    <%= textarea f, :content, placeholder: "对他说：", class: "materialize-textarea validate" %>
+    <div class="error-tip">
+      <p id="tips">
+      </p>
+    </div>
+    </div>
+  </div>
+ 
+  <div class="row">
+    <div class="input-field col s12">
+    <%= textarea f, :content, placeholder: "祝福语：", class: "materialize-textarea validate",  required: "true"  %>
     <%= error_tag f, :content %>
     </div>
   </div>
   <div class="row">
     <div class="col s12">
-      <%= submit "发布", class: "btn waves-light pink" %>
+      <%= submit "送上祝福", class: "btn waves-light pink lighten-3" %>
     </div>
   </div>
 
 <% end %>
+<ul class="collection">
+   <%= for comment <- tl(@post.comments) do %>
+	   
+    <li class="collection-item avatar">
+      <img class="circle" src="<%= comment.user.headimgurl %>"/>
+      <p><%= comment.content %>
+      </p>
+      <p>
+        <%= comment.user.nickname %>
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+   <% end %>
+</ul>
 <div class="holder-div"></div>
 
 <!-- 

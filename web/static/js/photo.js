@@ -14,6 +14,16 @@ $(function(){
   // $(".button-collapse").sideNav();
   // $('.button-collapse').sideNav('show');
   // $('select').material_select();
+  $('#comments-form').submit(function() {
+    var content = $.trim($("#comment_content").val());
+    var pContent = "请写祝福语！";
+    if(content == '') {
+      $("#tips").text(pContent);
+      return false; 
+    }
+    return true; // return false to cancel form action
+  });
+ 
   var gallery = $('#blueimp-gallery').data('gallery'); 
   var id = $("#post-id").val(); 
   var flowerUrl = "/posts/"+id+"/flower"; 

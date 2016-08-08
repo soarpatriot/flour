@@ -26,4 +26,7 @@ defmodule Flour.Post do
     # |> validate_length(:content,max: 140)
   end
 
+  def with_comments_user(query) do
+    from q in query, preload: [comments: :user]
+  end 
 end

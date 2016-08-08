@@ -123,7 +123,11 @@ defmodule Flour.PostController do
     IO.puts "count: #{flower_count}"
     client |> Exredis.stop
      
-    post = Repo.get!(Post, id) |> Repo.preload(:photos) |> Repo.preload(:user) |> Repo.preload(:comments)
+    post = Post 
+          |> Post.with_comments_user 
+          |> Repo.get!(id) 
+          |> Repo.preload(:photos) 
+          |> Repo.preload(:user) 
     render(conn, "show.html", post: post, flower_count: flower_count, changeset: changeset, layout: {Flour.LayoutView, "app.html"})
   end
 
