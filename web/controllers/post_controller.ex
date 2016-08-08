@@ -84,7 +84,7 @@ defmodule Flour.PostController do
   end
   def index(conn, _params) do
     user_id = get_session(conn, :user_id) 
-    posts = Repo.all(from p in Post, where: p.user_id == ^user_id )
+    posts = Repo.all(from p in Post, where: p.user_id == ^user_id ) |> Repo.preload(:photos)
     #  posts = Repo.all(Post)
     render(conn, "index.html", posts: posts)
   end
