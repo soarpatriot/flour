@@ -10,8 +10,7 @@ defmodule Flour.PostController do
   alias Flour.Comment
   
   def comment(conn,  %{"id" => id, "comment" => comment_params}) do 
-    user_id = 121
-     
+    user_id = get_session(conn, :user_id) 
     IO.puts "comment"
     IO.puts "id: #{id}"
     # IO.inspect _params
