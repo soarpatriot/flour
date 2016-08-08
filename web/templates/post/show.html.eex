@@ -104,7 +104,7 @@
 
 <% end %>
 <ul class="collection">
-   <%= for comment <- tl(@post.comments) do %>
+   <%= for comment <- @post.comments do %>
 	   
     <li class="collection-item avatar">
       <img class="circle" src="<%= comment.user.headimgurl %>"/>
