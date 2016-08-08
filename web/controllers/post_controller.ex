@@ -9,7 +9,8 @@ defmodule Flour.PostController do
   alias Flour.User
 
   def index(conn, _params) do
-    posts = Repo.all(Post)
+    user_id = get_session(conn, :user_id) 
+    posts = Repo.all(from p in Post, where: p.user_id == ^user_id )
     render(conn, "index.html", posts: posts)
   end
 
@@ -145,9 +146,13 @@ defmodule Flour.PostController do
             
               if !user do 
                 IO.puts "save"
-                Repo.insert(changeset)
+                case Repo.insert(changeset) do 
+                  {:ok, _user} ->
+                    conn = put_session(conn, :user_id, _user.id) 
+                end
               else 
                 IO.puts "update"
+                conn = put_session(conn, :user_id, user.id) 
                 # Repo.update(user,changeset) 
               end
             {:ok, %HTTPoison.Response{status_code: 404}} ->
@@ -155,8 +160,6 @@ defmodule Flour.PostController do
             {:error, %HTTPoison.Error{reason: reason}} ->
               IO.inspect reason
         end    
-
-      
       end            
     end 
     conn 
