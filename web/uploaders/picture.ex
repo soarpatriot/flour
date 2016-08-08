@@ -36,7 +36,7 @@ defmodule Flour.Picture do
   # Define a thumbnail transformation:
   def transform(:thumb, _) do
      # {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format png", :png}
-     {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250"}
+     {:convert, "-strip -thumbnail 521x521^ -gravity center -extent 250x250"}
   end
 
   # Override the persisted filenames:

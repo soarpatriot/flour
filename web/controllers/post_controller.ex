@@ -69,9 +69,9 @@ defmodule Flour.PostController do
     if post_params["title"] do 
       changeset = Ecto.Changeset.put_change(changeset, :title, title)
     end 
-    if post_params["content"] do 
-      changeset = Ecto.Changeset.put_change(changeset, :content, content)
-    end 
+    # if post_params["content"] do 
+    #  changeset = Ecto.Changeset.put_change(changeset, :content, content)
+    # end 
  
     ps = String.split(photo_ids, ",")
       |> Enum.map( &(String.to_integer(&1)) )
