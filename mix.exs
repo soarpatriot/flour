@@ -43,6 +43,7 @@ defmodule Flour.Mixfile do
      {:httpoison, "~> 0.9.0"},
      {:arc_ecto, "~> 0.4.2"},
      {:phoenix_session_redis, "~> 0.1.2"},
+     {:logger_file_backend, "0.0.7"},
      {:exredis, ">= 0.2.4"}
     ]
  

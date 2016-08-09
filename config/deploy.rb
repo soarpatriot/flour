@@ -30,7 +30,7 @@ set :repo_url, 'git@github.com:soarpatriot/flour.git'
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system')
 set :linked_files, fetch(:linked_files, []).push('config/prod.secret.exs','config/prod.exs')
 set :linked_dirs, fetch(:linked_dirs, []).
-      push('deps', 'node_modules', 'rel', '_build', 'priv/static')
+      push('deps', 'node_modules', 'rel', '_build', 'priv/static', 'log')
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
