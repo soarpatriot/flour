@@ -229,10 +229,15 @@ defmodule Flour.PostController do
             {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
               result = Poison.Parser.parse!(body)
               Logger.info inspect(result)
+              
+              headurl = result["headimgurl"] 
+              if String.strip(result["headimgurl"]) == "" do 
+                headurl = "#{Application.get_env(:flour, :default_wechat_headurl)}" 
+              end
               changeset = User.changeset(%User{}, %{"openid"=> result["openid"], "nickname"=> result["nickname"], 
                   "province"=> result["province"],
                    "country"=> result["country"],
-                   "headimgurl"=> result["headimgurl"]})
+                   "headimgurl"=> headurl})
             
               if !user do 
                 Logger.info "save"

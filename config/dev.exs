@@ -44,8 +44,8 @@ config :flour, Flour.Repo,
 
 config :flour,
   wechat_appid: "wx5940611bb6faccc3",
-  wechat_secret: "655870e4c49d7e85b6b2222a1ee470eb"
- 
+  wechat_secret: "655870e4c49d7e85b6b2222a1ee470eb",
+  default_wechat_headurl: "http://localhost:4000/favicon.ico" 
 config :arc,
   asset_host: "http://localhost:4000"
 
