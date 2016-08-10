@@ -19,6 +19,6 @@ defmodule Flour.User do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:openid, :nickname, :sex, :province, :country, :headimgurl])
-    |> validate_required([:openid, :nickname,  :province, :country, :headimgurl])
+    |> validate_required([:openid, :nickname, :headimgurl])
   end
 end

@@ -2,6 +2,7 @@ defmodule Flour.PostController do
   use Flour.Web, :controller
   require IEx
   require Exredis
+  require Logger
   plug :auth
   plug :put_layout, "post.html"
   alias Flour.Post
@@ -190,8 +191,6 @@ defmodule Flour.PostController do
     userinfo_base = "#{Application.get_env(:flour, :wechat_userinfo_url)}"
     current_url = Flour.Router.Helpers.url(conn) <> conn.request_path
 
-    IO.puts "access_token: #{access_token}"
-    IO.puts "openid: #{openid}"
     code = conn.params["code"]    
 
     if is_nil(access_token) or is_nil(openid) do 
@@ -202,27 +201,27 @@ defmodule Flour.PostController do
         redirect conn |> halt, external: code_url
         
       else 
-        IO.puts "code=#{code}"
+        Logger.info "code=#{code}"
         access_url = "#{Application.get_env(:flour, :wechat_access_token_url)}?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
-        IO.puts access_url
-        IO.puts "access_token is empty"
+        Logger.info access_url
+        Logger.info "access_token is empty"
         case HTTPoison.get(access_url) do
           {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
             result = Poison.Parser.parse!(body)
-            IO.inspect result
+            Logger.info result
             conn = put_session(conn, :access_token, result["access_token"])
             conn = put_session(conn, :openid, result["openid"])
           {:ok, %HTTPoison.Response{status_code: 404}} ->
-            IO.puts "Not found :("
+            Logger.error "Not found :("
           {:error, %HTTPoison.Error{reason: reason}} ->
-            IO.inspect reason
+            Logger.error reason
         end    
 
         access_token = get_session(conn, :access_token) 
         openid = get_session(conn, :openid)
         userinfo_url = "#{userinfo_base}?openid=#{openid}&access_token=#{access_token}"
-        IO.puts "access_token: #{access_token}"
-        IO.puts "openid: #{openid}"
+        Logger.info "access_token: #{access_token}"
+        Logger.info "openid: #{openid}"
 
         user =  Repo.get_by(User, openid: openid)
             
@@ -236,20 +235,20 @@ defmodule Flour.PostController do
                    "headimgurl"=> result["headimgurl"]})
             
               if !user do 
-                IO.puts "save"
+                Logger.info "save"
                 case Repo.insert(changeset) do 
                   {:ok, _user} ->
                     conn = put_session(conn, :user_id, _user.id) 
                 end
               else 
-                IO.puts "update"
+                Logger.info "update"
                 conn = put_session(conn, :user_id, user.id) 
                 # Repo.update(user,changeset) 
               end
             {:ok, %HTTPoison.Response{status_code: 404}} ->
-              IO.puts "Not found :("
+              Logger.error "Not found :("
             {:error, %HTTPoison.Error{reason: reason}} ->
-              IO.inspect reason
+              Logger.error reason
         end    
       end            
     end 
