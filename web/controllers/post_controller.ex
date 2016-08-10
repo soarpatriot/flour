@@ -195,7 +195,7 @@ defmodule Flour.PostController do
 
     if is_nil(access_token) or is_nil(openid) do 
       
-      IO.puts "access_token or openid is empty"
+      Logger.info "access_token or openid is empty"
       if is_nil(code) do 
         code_url = "#{code_url}?appid=#{appid}&redirect_uri=#{current_url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect" 
         redirect conn |> halt, external: code_url
@@ -208,13 +208,13 @@ defmodule Flour.PostController do
         case HTTPoison.get(access_url) do
           {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
             result = Poison.Parser.parse!(body)
-            Logger.info result
+            Logger.info inspect(result)
             conn = put_session(conn, :access_token, result["access_token"])
             conn = put_session(conn, :openid, result["openid"])
           {:ok, %HTTPoison.Response{status_code: 404}} ->
             Logger.error "Not found :("
           {:error, %HTTPoison.Error{reason: reason}} ->
-            Logger.error reason
+            Logger.error inspect(reason)
         end    
 
         access_token = get_session(conn, :access_token) 
@@ -228,7 +228,7 @@ defmodule Flour.PostController do
         case HTTPoison.get(userinfo_url) do
             {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
               result = Poison.Parser.parse!(body)
-              IO.inspect result
+              Logger.info inspect(result)
               changeset = User.changeset(%User{}, %{"openid"=> result["openid"], "nickname"=> result["nickname"], 
                   "province"=> result["province"],
                    "country"=> result["country"],
@@ -248,7 +248,7 @@ defmodule Flour.PostController do
             {:ok, %HTTPoison.Response{status_code: 404}} ->
               Logger.error "Not found :("
             {:error, %HTTPoison.Error{reason: reason}} ->
-              Logger.error reason
+              Logger.error inspect(reason)
         end    
       end            
     end 
