@@ -20,7 +20,6 @@ defmodule Flour.PageController do
     t  = tresult["ticket"] 
     param_arr = [ "jsapi_ticket=#{t}", "noncestr=#{noncestr}", "timestamp=#{timestamp}", "url=#{url}"]
     signature = sign_param(param_arr)
-    IEx.pry
     json conn, %{appid: appid,noncestr: noncestr, timestamp: timestamp,signature: "#{signature}" } 
  
   end
