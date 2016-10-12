@@ -21,10 +21,12 @@ defmodule Flour.Router do
     post "/posts/:id/comment",  PostController, :comment
     resources "/photos", PhotoController 
     get "/", PageController, :index
+    get "/sign", PageController, :sign
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Flour do
-  #   pipe_through :api
-  # end
+  scope "/api", Flour do
+    pipe_through :api
+    get "/sign", WechatController, :sign
+  end
 end

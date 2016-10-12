@@ -16,6 +16,7 @@ import "jquery"
 import "materialize-css/dist/js/materialize.js"
 import "./show.js"
 import "./photo.js"
+import "./wechat.js"
 // Import local files
 //
 // Local files can be imported directly using relative

@@ -1,27 +1,26 @@
-defmodule Flour.PageController do
+defmodule Flour.WechatController do
   use Flour.Web, :controller
   require Logger
-  require IEx
-  def index(conn, _params) do
-    Logger.error("page")
-    render conn, "index.html"
-  end
-
   def sign(conn, _params) do 
     noncestr = 111
     timestamp = os_timestamp()
     appid = "#{Application.get_env(:flour, :wechat_appid)}"
     secret = "#{Application.get_env(:flour, :wechat_secret)}"
-    url = _params["url"] 
-    
+    url = _params[:url] 
     result = access_token(appid, secret) 
     token = result["access_token"]
     tresult =  ticket(token) 
     t  = tresult["ticket"] 
+    
     param_arr = [ "jsapi_ticket=#{t}", "noncestr=#{noncestr}", "timestamp=#{timestamp}", "url=#{url}"]
     signature = sign_param(param_arr)
-    IEx.pry
-    json conn, %{appid: appid,noncestr: noncestr, timestamp: timestamp,signature: "#{signature}" } 
+    json conn,
+          %{
+            appid: appid,
+            noncestr: noncestr, 
+            timestamp: timestamp,
+            signature: signature 
+           }
  
   end
 
@@ -32,7 +31,7 @@ defmodule Flour.PageController do
 
   def sign_param param_arr do 
     con_str =Enum.sort(param_arr) |> Enum.join("&")
-    :crypto.hash(:sha,con_str) |> Base.encode16
+    :crypto.hash(:sha,con_str)
   end
   def ticket access_token do 
     result = %{}
@@ -69,4 +68,5 @@ defmodule Flour.PageController do
   def current_url(conn) do 
     Flour.Router.Helpers.url(conn) <> conn.request_path
   end
+
 end
